@@ -24,4 +24,6 @@ jobs:
         run: |
           cd dataverse
           mvn test -Ddataverse.test.baseurl=http://localhost:8080 -Dtest=UtilIT,FitsIT
-          
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
