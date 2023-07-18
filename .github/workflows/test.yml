@@ -16,6 +16,10 @@ jobs:
           java-version: 11
           distribution: temurin
           cache: maven
+      - name: Start Dataverse containers
+        run: |
+          cd dataverse
+          mvn -Pct package docker:run
       - name: Run API tests
         run: |
           cd dataverse
