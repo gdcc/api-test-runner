@@ -18,5 +18,6 @@ jobs:
           cache: maven
       - name: Run API tests
         run: |
+          cd dataverse
           mvn test -Ddataverse.test.baseurl=http://localhost:8080 -Dtest=UtilIT,FitsIT
           
