@@ -19,7 +19,7 @@ jobs:
       - name: Start Dataverse containers
         run: |
           cd dataverse
-          mvn -Pct package docker:run
+          docker compose -f docker-compose-dev.yml up -d
       - name: Run API tests
         run: |
           cd dataverse
