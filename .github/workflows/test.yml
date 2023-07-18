@@ -24,7 +24,8 @@ jobs:
         run: |
           docker ps
           docker exec dev_dataverse ls -l /
-          docker exec dev_dataverse ls -l /dv
+          docker exec dev_dataverse chown 1000:1000 /dv /secrets
+          docker exec dev_dataverse ls -l /
           echo done
 #       - name: Run API tests
 #         run: |
