@@ -23,7 +23,9 @@ jobs:
       - name: Check permissions
         run: |
           docker ps
+          docker exec dev_dataverse ls -l /
           docker exec dev_dataverse ls -l /dv
+          echo done
 #       - name: Run API tests
 #         run: |
 #           cd dataverse
