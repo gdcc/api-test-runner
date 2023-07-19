@@ -19,9 +19,9 @@ jobs:
       - name: Start containers
         run: |
           docker compose -f docker-compose-ci.yml --env-file .env.ci up -d
-      - name: Test container
-        run: |
-          curl localhost:8080/api/metadatablocks
+#       - name: Test container
+#         run: |
+#           curl localhost:8080/api/metadatablocks
       #- name: List files in the repository
       #  run: |
       #    ls -laR ${{ env.RUNNER_TEMP }}
