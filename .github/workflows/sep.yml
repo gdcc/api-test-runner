@@ -1,0 +1,46 @@
+# Separate docker compose file
+name: Separate 
+
+on: workflow_dispatch
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Dataverse repo
+        uses: actions/checkout@v3
+        with:
+          repository: IQSS/dataverse
+          path: dataverse
+          ref: develop
+
+      - name: Start containers
+        run: |
+          docker compose -f docker-compose-ci.yml --env-file .env.ci up -d
+          docker ps
+      - uses: emilioschepis/wait-for-endpoint@v1.0.3
+        with:
+          url: http://localhost:8080/api/info/version
+          timeout: 120000
+          interval: 10000
+      - name: Run final setup script
+        run: |
+          cd dataverse
+          bash scripts/dev/docker-final-setup.sh
+          cd ..
+      - name: Test container
+        run: |
+          curl localhost:8080/api/metadatablocks
+      #- name: List files in the repository
+      #  run: |
+      #    ls -laR ${{ env.RUNNER_TEMP }}
+      - name: Run API tests
+        run: |
+          cd dataverse
+          mvn test -Ddataverse.test.baseurl=http://localhost:8080 -Dtest=UtilIT,FitsIT
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
+      - name: Stop containers
+        if: always()
+        run: docker compose -f docker-compose-ci.yml --env-file .env.ci down
