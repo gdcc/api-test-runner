@@ -15,7 +15,6 @@ jobs:
           repository: IQSS/dataverse
           path: dataverse
           ref: develop
-
       - name: Start containers
         run: |
           docker compose -f docker-compose-ci.yml --env-file .env.ci up -d
