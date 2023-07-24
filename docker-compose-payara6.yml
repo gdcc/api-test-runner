@@ -4,7 +4,7 @@ services:
   test_dataverse:
     container_name: 'test_dataverse'
     hostname: dataverse
-    image: ${DATAVERSE_IMAGE_REGISTRY}/gdcc/dataverse:${DATAVERSE_IMAGE_TAG}
+    image: ${APP_IMAGE}
     restart: on-failure
     user: payara
     environment:
