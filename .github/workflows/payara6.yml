@@ -14,7 +14,11 @@ jobs:
         with:
           repository: IQSS/dataverse
           path: dataverse
-          ref: develop
+          ref: 8305-payara6-ee10-v3
+      - name: Build Payara 6 base image
+        run: |
+          cd dataverse
+          mvn -Pct -f modules/container-base install
       - name: Start containers
         run: |
           docker compose -f docker-compose-payara6.yml --env-file .env.payara6 up -d
