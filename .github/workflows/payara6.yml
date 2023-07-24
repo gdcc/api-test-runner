@@ -35,7 +35,7 @@ jobs:
       - name: Run database sequence
         run: |
           cd dataverse
-          psql -U $DATAVERSE_DB_USER $DATAVERSE_DB_NAME -f doc/sphinx-guides/source/_static/util/createsequence.sql
+          psql -h localhost -U $DATAVERSE_DB_USER $DATAVERSE_DB_NAME -f doc/sphinx-guides/source/_static/util/createsequence.sql
       - name: Run API tests
         run: |
           cd dataverse
