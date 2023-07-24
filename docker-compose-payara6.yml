@@ -4,7 +4,7 @@ services:
   test_dataverse:
     container_name: 'test_dataverse'
     hostname: dataverse
-    image: ${APP_IMAGE}
+    image: ghcr.io/gdcc/dataverse:8305-payara6-ee10-v3
     restart: on-failure
     user: payara
     environment:
@@ -27,7 +27,7 @@ services:
 
   test_dataverse_bootstrap:
     container_name: 'test_dataverse_bootstrap'
-    image: gdcc/configbaker:unstable
+    image: ghcr.io/gdcc/configbaker:8305-payara6-ee10-v3
     restart: 'no'
     environment:
       - TIMEOUT=${DATAVERSE_BOOTSTRAP_TIMEOUT}
