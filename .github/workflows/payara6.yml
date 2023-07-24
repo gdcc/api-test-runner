@@ -18,9 +18,12 @@ jobs:
         run: |
           cd dataverse
           mvn -Pct -f modules/container-base install
+      - name: Build app image
+        run: |
+          cd dataverse
+          mvn -Pct package
       - name: Start containers
         run: |
-          mvn -Pct package
           docker compose -f docker-compose-payara6.yml --env-file .env.payara6 up -d
       - uses: emilioschepis/wait-for-endpoint@v1.0.3
         with:
