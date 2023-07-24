@@ -35,7 +35,8 @@ jobs:
       - name: Run API tests
         run: |
           cd dataverse
-          mvn test -Ddataverse.test.baseurl=http://localhost:8080 -Dtest=UtilIT,FitsIT
+          INTEGRATION_TESTS=$(<tests/integration-tests.txt)
+          mvn test -Dtest=$INTEGRATION_TESTS -Ddataverse.test.baseurl=http://localhost:8080
       - name: Dump docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2
