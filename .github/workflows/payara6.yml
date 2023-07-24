@@ -1,5 +1,4 @@
-# modeled on https://github.com/IQSS/dataverse-client-javascript
-name: JS
+name: Payara 6
 
 on: workflow_dispatch
 
