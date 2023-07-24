@@ -1,5 +1,5 @@
-# Separate docker compose file
-name: Separate 
+# modeled on https://github.com/IQSS/dataverse-client-javascript
+name: JS
 
 on: workflow_dispatch
 
@@ -17,7 +17,7 @@ jobs:
           ref: develop
       - name: Start containers
         run: |
-          docker compose -f docker-compose-ci.yml --env-file .env.ci up -d
+          docker compose -f docker-compose-payara6.yml --env-file .env.payara6 up -d
       - uses: emilioschepis/wait-for-endpoint@v1.0.3
         with:
           url: http://localhost:8080/api/info/version
@@ -38,4 +38,4 @@ jobs:
         uses: jwalton/gh-docker-logs@v2
       - name: Stop containers
         if: always()
-        run: docker compose -f docker-compose-ci.yml --env-file .env.ci down
+        run: docker compose -f docker-compose-payara6.yml --env-file .env.payara6 down
