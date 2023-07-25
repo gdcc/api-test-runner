@@ -40,6 +40,8 @@ jobs:
         run: |
           cd dataverse
           export PGPASSWORD=secret
+          # use correct database name
+          sed -i 's/dvnapp/dataverse/g' doc/sphinx-guides/source/_static/util/createsequence.sql
           psql -h localhost -U dataverse dataverse -f doc/sphinx-guides/source/_static/util/createsequence.sql
       - name: Run API tests
         run: |
