@@ -33,6 +33,9 @@ jobs:
       - name: Test homepage
         run: |
           curl http://localhost:8080
+      - name: Test Solr schema
+        run: |
+          curl http://localhost:8080/api/admin/index/solr/schema
 #       - name: Test SMTP
 #         run: |
 #           nc localhost 25
