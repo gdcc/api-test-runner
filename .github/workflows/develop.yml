@@ -24,8 +24,8 @@ jobs:
           interval: 10000
       - name: Test Solr
         run: |
-          curl http://solr:8983/solr/collection1/schema/fields
-          curl 'http://solr:8983/solr/collection1/select?q=*%3A*&wt=json&indent=true'
+          curl http://localhost:8983/solr/collection1/schema/fields
+          curl 'http://localhost:8983/solr/collection1/select?q=*%3A*&wt=json&indent=true'
       - name: Run database sequence
         run: |
           cd dataverse
