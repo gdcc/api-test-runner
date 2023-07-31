@@ -35,7 +35,8 @@ jobs:
           curl http://localhost:8080
       - name: Test SMTP
         run: |
-          timeout 3 nc localhost 25
+          echo quit > commands.txt
+          nc localhost 25 < commands.txt
       - name: Test Solr
         run: |
           curl http://localhost:8983/solr/collection1/schema/fields
