@@ -39,6 +39,9 @@ jobs:
 #       - name: Test SMTP
 #         run: |
 #           nc localhost 25
+      - name: Test Search API
+        run: |
+          curl 'http://localhost:8080/api/search?q=*'
       - name: Test Solr
         run: |
           curl http://localhost:8983/solr/collection1/schema/fields
