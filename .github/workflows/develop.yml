@@ -41,6 +41,7 @@ jobs:
 #           nc localhost 25
       - name: Test Search API
         run: |
+          sleep 30
           curl 'http://localhost:8080/api/search?q=*'
       - name: Test Solr
         run: |
