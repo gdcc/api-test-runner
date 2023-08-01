@@ -35,7 +35,7 @@ jobs:
           docker ps
           # When tests are run on localhost, Dataverse can access /tmp/sushi_sample_logs.json
           # See https://github.com/IQSS/dataverse/blob/develop/src/test/java/edu/harvard/iq/dataverse/api/MakeDataCountApiIT.java#L56
-          docker exec -it test_dataverse sh -c 'curl https://raw.githubusercontent.com/IQSS/dataverse/develop/src/test/java/edu/harvard/iq/dataverse/makedatacount/sushi_sample_logs.json > /tmp/sushi_sample_logs.json'
+          docker exec test_dataverse sh -c 'curl https://raw.githubusercontent.com/IQSS/dataverse/develop/src/test/java/edu/harvard/iq/dataverse/makedatacount/sushi_sample_logs.json > /tmp/sushi_sample_logs.json && head /tmp/sushi_sample_logs.json'
       - name: Test Search API
         run: |
           sleep 30
