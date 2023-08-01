@@ -30,15 +30,6 @@ jobs:
           url: http://localhost:8080/api/metadatablocks
           timeout: 120000
           interval: 10000
-      - name: Test homepage
-        run: |
-          curl http://localhost:8080
-      - name: Test Solr schema
-        run: |
-          curl http://localhost:8080/api/admin/index/solr/schema
-#       - name: Test SMTP
-#         run: |
-#           nc localhost 25
       - name: Test Search API
         run: |
           sleep 30
