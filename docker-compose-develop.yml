@@ -58,6 +58,9 @@ services:
       - sh
       - -c
       - 'fix-fs-perms.sh solr && cp -a /template/* /solr-template'
+    volumes:
+      - ${RUNNER_TEMP}/solr/data:/var/solr
+      - ${RUNNER_TEMP}/solr/conf:/solr-template
 
   test_solr:
     container_name: 'test_solr'
