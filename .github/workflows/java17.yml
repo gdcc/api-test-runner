@@ -20,6 +20,10 @@ jobs:
           repository: IQSS/dataverse
           path: dataverse
           ref: 8094-java-17
+      - name: Run unit tests
+        run: |
+          cd dataverse
+          mvn test
       - name: Build Payara 6 base image
         run: |
           cd dataverse
