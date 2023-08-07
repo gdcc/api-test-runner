@@ -1,4 +1,4 @@
-name: Payara 6
+name: Java 17
 
 on: workflow_dispatch
 
