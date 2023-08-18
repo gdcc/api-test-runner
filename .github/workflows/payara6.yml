@@ -13,7 +13,7 @@ jobs:
         with:
           repository: IQSS/dataverse
           path: dataverse
-          ref: 8305-payara6-ee10-v3
+          ref: 9793-update-payara-6.2023.8
       - name: Build Payara 6 base image
         run: |
           cd dataverse
