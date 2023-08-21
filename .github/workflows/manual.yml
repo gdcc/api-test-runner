@@ -1,0 +1,106 @@
+name: manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: "Source Dataverse repo as [Org name]/[Repo name]"
+        type: string
+        required: true
+        default: IQSS/dataverse
+      branch: 
+        description: Branch name to clone for tests
+        type: string
+        required: true
+        default: develop
+      javaVersion:
+        description: Java SDK version to use
+        type: choice
+        options:
+          - 11
+          - 17
+        required: true
+        default: "11"
+      mavenOptions:
+        description: Add more Maven options here
+        type: string
+        required: false
+        default: ""
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.javaVersion }}
+          distribution: temurin
+          cache: maven
+      - name: Clone this repo
+        uses: actions/checkout@v3
+      - name: Clone Dataverse repo
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.repository }}
+          path: dataverse
+          ref: ${{ inputs.branch }}
+
+      - name: Build containers
+        run: |
+          mvn -f dataverse/modules/container-base -Pct package -Dbase.image.tag=manual -Dtarget.java.version=${{ inputs.javaVersion }} ${{ inputs.mavenOptions }}
+          mvn -f dataverse -Pct package -Dbase.image.tag=manual -Dapp.image.tag=manual -Dtarget.java.version=${{ inputs.javaVersion }} ${{ inputs.mavenOptions }}
+
+      - name: Start containers
+        run: |
+          docker compose -f docker-compose-manual.yml --env-file .env.manual up -d
+      # Bootstrap will wait up until accessible, so blocking here.
+      - name: Bootstrap
+        run: |
+          docker run -it --network dataverse gdcc/configbaker:manual bootstrap.sh dev
+      
+      - name: Put SUSHI config file in place
+        run: |
+          docker ps
+          # When tests are run on localhost, Dataverse can access /tmp/sushi_sample_logs.json
+          # See https://github.com/IQSS/dataverse/blob/develop/src/test/java/edu/harvard/iq/dataverse/api/MakeDataCountApiIT.java#L56
+          docker exec test_dataverse sh -c 'curl https://raw.githubusercontent.com/IQSS/dataverse/develop/src/test/java/edu/harvard/iq/dataverse/makedatacount/sushi_sample_logs.json > /tmp/sushi_sample_logs.json && head /tmp/sushi_sample_logs.json'
+      - name: Test Search API
+        run: |
+          sleep 30
+          curl 'http://localhost:8080/api/search?q=*'
+      - name: Test Solr
+        run: |
+          curl http://localhost:8983/solr/collection1/schema/fields
+          curl 'http://localhost:8983/solr/collection1/select?q=*%3A*&wt=json&indent=true'
+      - name: Run database sequence
+        run: |
+          cd dataverse
+          export PGPASSWORD=secret
+          # use correct database name
+          sed -i 's/dvnapp/dataverse/g' doc/sphinx-guides/source/_static/util/createsequence.sql
+          psql -h localhost -U dataverse dataverse -f doc/sphinx-guides/source/_static/util/createsequence.sql
+      - name: Run API tests
+        run: |
+          cd dataverse
+          INTEGRATION_TESTS=$(<tests/integration-tests.txt)
+          mvn test -Dtest=$INTEGRATION_TESTS -Ddataverse.test.baseurl=http://localhost:8080
+      
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
+        with:
+          dest: './logs'
+      - name: Tar logs
+        if: failure()
+        run: tar cvzf ./logs.tgz ./logs
+      - name: Upload logs to GitHub
+        if: failure()
+        uses: actions/upload-artifact@master
+        with:
+          name: logs.tgz
+          path: ./logs.tgz
+      
+      - name: Stop containers
+        if: always()
+        run: docker compose -f docker-compose-alpha.yml --env-file .env.alpha down
