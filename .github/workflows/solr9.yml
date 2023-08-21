@@ -14,10 +14,6 @@ jobs:
           repository: IQSS/dataverse
           path: dataverse
           ref: 9260-solr930
-      - name: Build Payara 6 base image
-        run: |
-          cd dataverse
-          mvn -Pct -f modules/container-base install
       - name: Build app image
         run: |
           cd dataverse
