@@ -48,8 +48,15 @@ jobs:
 
       - name: Build containers
         run: |
-          mvn -f dataverse/modules/container-base -Pct package -Dbase.image.tag=manual -Dtarget.java.version=${{ inputs.javaVersion }} ${{ inputs.mavenOptions }}
-          mvn -f dataverse -Pct package -Dbase.image.tag=manual -Dapp.image.tag=manual -Dtarget.java.version=${{ inputs.javaVersion }} ${{ inputs.mavenOptions }}
+          cd dataverse
+          mvn -f modules/container-base -Pct package -Dbase.image.tag=manual -Dtarget.java.version=${{ inputs.javaVersion }} ${{ inputs.mavenOptions }}
+          mvn -Pct package -Dbase.image.tag=manual -Dapp.image.tag=manual -Dtarget.java.version=${{ inputs.javaVersion }} ${{ inputs.mavenOptions }}
+      - name: Map env file
+        run: |
+          cd dataverse
+          echo "SOLR_VERSION=$(mvn -Pct help:evaluate -Dexpression=solr.version -q -DforceStdout)" > ../.env.manual
+          echo "POSTGRES_VERSION=$(mvn -Pct help:evaluate -Dexpression=postgresql.server.version -q -DforceStdout)" > ../.env.manual
+
 
       - name: Start containers
         run: |
