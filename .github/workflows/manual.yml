@@ -60,11 +60,11 @@ jobs:
 
       - name: Start containers
         run: |
-          docker compose -f docker-compose-manual.yml --env-file .env.manual up -d
+          docker compose -p apitest -f docker-compose-manual.yml --env-file .env.manual up -d
       # Bootstrap will wait up until accessible, so blocking here.
       - name: Bootstrap
         run: |
-          docker run -i --network dataverse gdcc/configbaker:manual bootstrap.sh dev
+          docker run -i --network apitest_dataverse gdcc/configbaker:manual bootstrap.sh dev
       
       - name: Put SUSHI config file in place
         run: |
