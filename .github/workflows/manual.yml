@@ -54,9 +54,9 @@ jobs:
       - name: Map env file
         run: |
           cd dataverse
-          echo "SOLR_VERSION=$(mvn -Pct help:evaluate -Dexpression=solr.version -q -DforceStdout)" > ../.env.manual
-          echo "POSTGRES_VERSION=$(mvn -Pct help:evaluate -Dexpression=postgresql.server.version -q -DforceStdout)" > ../.env.manual
-
+          echo "SOLR_VERSION=$(mvn -Pct help:evaluate -Dexpression=solr.version -q -DforceStdout)" >> ../.env.manual
+          echo "POSTGRES_VERSION=$(mvn -Pct help:evaluate -Dexpression=postgresql.server.version -q -DforceStdout)" >> ../.env.manual
+          cat ../.env.manual
 
       - name: Start containers
         run: |
