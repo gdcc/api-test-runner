@@ -31,12 +31,6 @@ jobs:
   api:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ inputs.javaVersion }}
-          distribution: temurin
-          cache: maven
       - name: Clone this repo
         uses: actions/checkout@v3
       - name: Clone Dataverse repo
@@ -45,6 +39,12 @@ jobs:
           repository: ${{ inputs.repository }}
           path: dataverse
           ref: ${{ inputs.branch }}
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.javaVersion }}
+          distribution: temurin
+          cache: maven
 
       - name: Build containers
         run: |
