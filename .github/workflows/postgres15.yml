@@ -1,4 +1,4 @@
-name: Java 17
+name: Postgres 15
 
 on: workflow_dispatch
 
