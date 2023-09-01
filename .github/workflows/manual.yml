@@ -17,7 +17,6 @@ on:
         description: Java SDK version to use
         type: choice
         options:
-          - 11
           - 17
         required: true
         default: "11"
