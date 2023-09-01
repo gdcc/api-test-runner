@@ -25,10 +25,10 @@ jobs:
         run: |
           cd dataverse
           mvn test
-      - name: Build Payara 6 base image
-        run: |
-          cd dataverse
-          mvn -Pct -f modules/container-base install
+      #- name: Build Payara 6 base image
+      #  run: |
+      #    cd dataverse
+      #    mvn -Pct -f modules/container-base install
       - name: Build app image
         run: |
           cd dataverse
