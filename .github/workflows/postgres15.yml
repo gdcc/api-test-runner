@@ -35,7 +35,7 @@ jobs:
           mvn -Pct package
       - name: Start containers
         run: |
-          docker compose -f docker-compose-java17.yml --env-file .env.java17 up -d
+          docker compose -f docker-compose-postgres15.yml --env-file .env.postgres15 up -d
       - uses: emilioschepis/wait-for-endpoint@v1.0.3
         with:
           url: http://localhost:8080/api/info/version
@@ -91,4 +91,4 @@ jobs:
           path: ./logs.tgz
       - name: Stop containers
         if: always()
-        run: docker compose -f docker-compose-java17.yml --env-file .env.java17 down
+        run: docker compose -f docker-compose-postgres15.yml --env-file .env.postgres15 down
