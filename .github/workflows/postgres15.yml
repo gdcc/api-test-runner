@@ -17,7 +17,7 @@ jobs:
       - name: Clone Dataverse repo
         uses: actions/checkout@v3
         with:
-          repository: OdumInstitute/dataverse
+          repository: IQSS/dataverse
           path: dataverse
           ref: 9717_postgres_15
       - name: Run unit tests
