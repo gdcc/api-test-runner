@@ -18,7 +18,7 @@ jobs:
         with:
           repository: IQSS/dataverse
           path: dataverse
-          ref: develop
+          ref: 6783-s3-tests
       - name: Start containers
         run: |
           docker compose -f docker-compose-s3.yml --env-file .env.s3 up -d
