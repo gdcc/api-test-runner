@@ -156,7 +156,7 @@ services:
     networks:
       - dataverse
     volumes:
-      - minio_storage:/data
+      - ${RUNNER_TEMP}/minio_storage:/data
     environment:
       # these are the defaults but are here for clarity
       MINIO_ROOT_USER: minioadmin
