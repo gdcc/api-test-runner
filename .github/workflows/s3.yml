@@ -56,6 +56,10 @@ jobs:
           # use correct database name
           sed -i 's/dvnapp/dataverse/g' doc/sphinx-guides/source/_static/util/createsequence.sql
           psql -h localhost -U dataverse dataverse -f doc/sphinx-guides/source/_static/util/createsequence.sql
+      - name: Download mvn test dependencies
+        run: |
+          cd dataverse
+          mvn -B dependency:resolve -Dclassifier=test
       - name: Run API tests
         run: |
           cd dataverse
