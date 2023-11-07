@@ -60,6 +60,10 @@ jobs:
         run: |
           cd dataverse
           mvn -B dependency:resolve -Dclassifier=test
+      - name: Download more mvn test dependencies
+        run: |
+          cd dataverse
+          mvn test -Dtest=UtilIT
       - name: Run API tests
         run: |
           cd dataverse
