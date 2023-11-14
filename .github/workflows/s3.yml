@@ -68,9 +68,7 @@ jobs:
         run: |
           cd dataverse
           INTEGRATION_TESTS=$(<tests/integration-tests.txt)
-          # TODO: re-enable full test suite
-          #mvn test -Dtest=$INTEGRATION_TESTS -Ddataverse.test.baseurl=http://localhost:8080
-          mvn test -Dtest=S3AccessIT -Ddataverse.test.baseurl=http://localhost:8080
+          mvn test -Dtest=$INTEGRATION_TESTS -Ddataverse.test.baseurl=http://localhost:8080
       - name: Dump docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2
