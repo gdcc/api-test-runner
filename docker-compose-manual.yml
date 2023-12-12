@@ -59,6 +59,18 @@ services:
     mem_reservation: 1024m
     privileged: false
 
+  test_dataverse_bootstrap:
+    container_name: 'test_dataverse_bootstrap'
+    image: gdcc/configbaker:manual
+    restart: 'no'
+    environment:
+      - TIMEOUT=${DATAVERSE_BOOTSTRAP_TIMEOUT}
+    command:
+      - bootstrap.sh
+      - dev
+    networks:
+      - dataverse
+
   test_postgres:
     container_name: 'test_postgres'
     hostname: postgres
