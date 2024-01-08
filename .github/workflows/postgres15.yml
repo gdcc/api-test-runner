@@ -18,7 +18,7 @@ jobs:
         with:
           repository: IQSS/dataverse
           path: dataverse
-          ref: 9717_postgres_15
+          ref: 9920_postgres16
       - name: Run unit tests
         run: |
           cd dataverse
